@@ -13,8 +13,40 @@ BEGIN
 
     EXECUTE IMMEDIATE 'TRUNCATE TABLE STG_EMPLOYEES';
 
-    INSERT INTO  STG_EMPLOYEES
-    SELECT * FROM ORDERS_DB.EMPLOYEES;
+   INSERT INTO  STG_EMPLOYEES(EMPLOYEEID,
+                               LASTNAME,
+                               FIRSTNAME,
+                               TITLE,
+                               TITLEOFCOURTESY,
+                               BIRTHDATE,
+                               HIREDATE,
+                               ADDRESS,
+                               CITY,
+                               REGION,
+                               POSTALCODE,
+                               COUNTRY,
+                               HOMEPHONE,
+                               EXTENSION,
+                               NOTES,
+                               REPORTSTO)
+    SELECT EMPLOYEEID,
+           LASTNAME,
+           FIRSTNAME,
+           TITLE,
+           TITLEOFCOURTESY,
+           BIRTHDATE,
+           HIREDATE,
+           ADDRESS,
+           CITY,
+           REGION,
+           POSTALCODE,
+           COUNTRY,
+           HOMEPHONE,
+           EXTENSION,
+           TO_LOB(NOTES),
+           REPORTSTO
+           FROM ORDERS_DB.EMPLOYEES;
+
 
     V_END_DATE := SYSDATE;
     V_QUANTITY_ROWS := SQL%ROWCOUNT;
